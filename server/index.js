@@ -2,14 +2,9 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const axios = require('axios');
+const address = require('./ipAddresses')
 const app = express();
 const port = 3005;
-
-const address = {
-  comments: 'http://18.237.91.1:4001',
-  relatedTracks: 'http://52.10.168.93:1000',
-  player: 'http://34.217.131.190:3002',
-};
 
 app.use(cors());
 
@@ -25,7 +20,6 @@ app.get('/:component/bundle', (req, res) => {
     })
     .catch(err => {
       console.log('Error receiving bundle:', component);
-      console.log(err);
       res.status(500).send('Failed retrieving src')
     });
 });
@@ -37,7 +31,6 @@ app.get('/api/:component/songs/:songId', (req, res) => {
   axios.get(targetAddress)
     .then(dataStream => {
       console.log("Data received:", component);
-      console.log(dataStream);
       res.send(dataStream.data);
     })
     .catch(err => {
