@@ -27,9 +27,12 @@ app.get('/:component/bundle', (req, res) => {
 
 app.get('/api/:component/songs/:songId', (req, res) => {
   const { component, songId } =  req.params;
-  const targetAddress = component !== 'comments'
-    ? `${address[component]}/api/${component}/songs/${songId}`
-    : `${address[component]}/api/songs/${songId}`;
+  if (component === 'comments') {
+    var { page, limit, join } = req.query;
+    var targetAddress = `${address[component]}/api/songs/${songId}?page=${page}&limit=${limit}&join=false`;
+  } else {
+    var targetAddress = `${address[component]}/api/${component}/songs/${songId}`;
+  }
   console.log('Attempting to get at:', targetAddress);
   axios.get(targetAddress)
     .then(dataStream => {
