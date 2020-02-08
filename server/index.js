@@ -20,7 +20,8 @@ app.get('/:component/bundle', (req, res) => {
     })
     .catch(err => {
       console.log('Error receiving bundle:', component);
-      res.status(500).send('Failed retrieving src')
+      console.log(err);
+      res.status(500).send('Failed retrieving src');
     });
 });
 
